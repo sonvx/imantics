@@ -45,5 +45,12 @@ Currently Support Formats:
 ## Installing
 
 ```
-pip install imantics
+python3  setup.py sdist; python3 setup.py install
 ```
+
+## Testing
+```
+python3 -c "import imantics; print(imantics.__version__)"
+```
+- Output should be: 0.1.12
+
