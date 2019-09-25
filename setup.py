@@ -1,13 +1,13 @@
 from setuptools import setup
 
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+exec(open('imantics/version.py').read())
 
 setup(
     name='imantics',
-    version='0.1.10',
+    version=__version__,
     description='Python package for managing image annotations',
     url='https://github.com/jsbroks/imantics',
     author='Justin Brooks',
