@@ -1,4 +1,3 @@
-
 from lxml import etree as ET    
 from lxml.builder import E
 
@@ -42,6 +41,7 @@ class Image(Semantic):
         if os.path.isdir(path):
             return Image.from_folder(path)
         
+        print("#INFO: path = ", path)
         brg = cv2.imread(path)
         image_array = cv2.cvtColor(brg, cv2.COLOR_BGR2RGB)
 
@@ -91,27 +91,32 @@ class Image(Semantic):
         self.dataset = dataset
         self.annotations = {}
         self.categories = {}
-
-        # Index annotation
-        for index, annotation in enumerate(annotations):
-            annotation.id = index+1
-            annotation.index(self)
-
+        self.id = id
+        self.width = width
+        self.height = height
+        self.image_array = image_array
         self.path = path
-        # Load image form path if path is provided and image_array is not
-        if len(path) != 0 and image_array is None:
-            self = Image.from_path(path)
+        self.file_name = os.path.basename(self.path)
+        self.metadata = metadata
         
         # Create empty image if not provided
         if image_array is None:
             self.array = np.zeros((height, width, 3)).astype(np.uint8)
         else:
             self.array = image_array
+
+        # Index annotation
+        for index, annotation in enumerate(annotations):
+            annotation.id = index+1
+            annotation.index(self)
+
+        # Load image form path if path is provided and image_array is not
+        if len(path) != 0 and image_array is None:
+            self = Image.from_path(path)
         
         self.height, self.width, _ = self.array.shape
         
         self.size = (self.width, self.height)
-        self.file_name = os.path.basename(self.path)
 
         super(Image, self).__init__(id, metadata)
 
