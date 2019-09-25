@@ -5,6 +5,7 @@ from .category import Category
 from .basic import Semantic
 from .image import Image
 
+DEBUG=False
 
 class Dataset(Semantic):
     
@@ -29,20 +30,23 @@ class Dataset(Semantic):
             index_categories = {}
             for category in coco_categories:
                 category = Category.from_coco(category)
-                print("#INFO: category.id = ", category.id)
+                if DEBUG:
+                    print("#INFO: category.id = ", category.id)
                 index_categories[category.id] = category
 
             for image in coco_images:
                 image = Image.from_coco(image, dataset=dataset)
-                print("#INFO: image_type = ", type(image))
+                if DEBUG:
+                    print("#INFO: image_type = ", type(image))
                 dataset.add(image)
 
             for annotation in coco_annotations:
                 
                 image_id = annotation.get('image_id')
                 category_id = annotation.get('category_id')
-                print("#DEBUG: image_id = ", image_id)
-                print("#DEBUG: data.images = ", dataset.images)
+                if DEBUG:
+                    print("#DEBUG: image_id = ", image_id)
+                    print("#DEBUG: data.images = ", dataset.images)
                 image = dataset.images[image_id]
                 category = index_categories[category_id]
                 segmentation = annotation.get('segmentation')

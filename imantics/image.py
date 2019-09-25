@@ -11,6 +11,8 @@ from .basic import Semantic
 from .utils import json_default
 from .styles import COCO, VGG, VOC, YOLO
 
+DEBUG=False
+
 
 class Image(Semantic):
     
@@ -41,7 +43,8 @@ class Image(Semantic):
         if os.path.isdir(path):
             return Image.from_folder(path)
         
-        print("#INFO: path = ", path)
+        if DEBUG:
+            print("#INFO: path = ", path)
         brg = cv2.imread(path)
         image_array = cv2.cvtColor(brg, cv2.COLOR_BGR2RGB)
 
